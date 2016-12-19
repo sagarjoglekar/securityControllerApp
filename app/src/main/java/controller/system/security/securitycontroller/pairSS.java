@@ -13,6 +13,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import utils.SMSParser;
+
 public class pairSS extends AppCompatActivity {
 
     /**
@@ -20,6 +22,8 @@ public class pairSS extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private SMSParser parser = new SMSParser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,8 @@ public class pairSS extends AppCompatActivity {
         EditText SSNumber = (EditText)findViewById(R.id.SSNumber);
         EditText pass = (EditText)findViewById(R.id.Password);
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("07506225616", null, "sms message", null, null);
+        String message = parser.serialize("9822036919");
+        smsManager.sendTextMessage("07506225616", null, message , null, null);
         Toast.makeText(pairSS.this, SSNumber.getText(),
                 Toast.LENGTH_LONG).show();
     }
