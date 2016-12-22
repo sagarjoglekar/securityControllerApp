@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,9 +15,10 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import Interfaces.ISMSListeners;
 import utils.SMSParser;
 
-public class pairSS extends AppCompatActivity {
+public class pairSS extends AppCompatActivity implements ISMSListeners {
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -24,15 +26,18 @@ public class pairSS extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
-    private SMSParser parser = new SMSParser();
+    private SMSParser _parser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _parser = SMSParser.getStaticSMSParser();
+
         setContentView(R.layout.activity_pair_ss);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        _parser.registerSMSListener(this);
     }
 
     private String buildMessage(View view){
@@ -75,11 +80,11 @@ public class pairSS extends AppCompatActivity {
         TelephonyManager tMgr =(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getLine1Number();
 
-        String finalMessage = pairMessage + serial.getText().toString() + this.parser.sanitizeName(siteName.getText().toString()) + this.parser.sanitizeNumber(mPhoneNumber)
-                            + this.parser.sanitizeNumber(owner2.getText().toString()) + this.parser.sanitizeNumber(owner3.getText().toString())
-                            + this.parser.sanitizeNumber(emp1.getText().toString()) + this.parser.sanitizeNumber(emp2.getText().toString())
-                            + this.parser.sanitizeNumber(emp3.getText().toString()) + this.parser.sanitizeNumber(emp4.getText().toString())
-                            + this.parser.sanitizeNumber(emp5.getText().toString());
+        String finalMessage = pairMessage + serial.getText().toString() + this._parser.sanitizeName(siteName.getText().toString()) + this._parser.sanitizeNumber(mPhoneNumber)
+                            + this._parser.sanitizeNumber(owner2.getText().toString()) + this._parser.sanitizeNumber(owner3.getText().toString())
+                            + this._parser.sanitizeNumber(emp1.getText().toString()) + this._parser.sanitizeNumber(emp2.getText().toString())
+                            + this._parser.sanitizeNumber(emp3.getText().toString()) + this._parser.sanitizeNumber(emp4.getText().toString())
+                            + this._parser.sanitizeNumber(emp5.getText().toString()) + pass.getText().toString();
 
         return finalMessage;
 
@@ -89,7 +94,8 @@ public class pairSS extends AppCompatActivity {
         String payload = this.buildMessage(view);
         if (payload!=null){
             EditText SSNumber = (EditText)findViewById(R.id.SSNumber);
-            this.parser.sendMessage(SSNumber.getText().toString() , payload);
+            this._parser.sendMessage(SSNumber.getText().toString() , payload);
+            //this._parser.sendMessage("07506225616" , payload);
         }
         Toast.makeText(pairSS.this, "Pairing message sent ",
                 Toast.LENGTH_LONG).show();
@@ -129,5 +135,11 @@ public class pairSS extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @Override
+    public void onSMSReceive(String message) {
+        String decoded = _parser.deSerialize(message);
+        Log.println(Log.DEBUG,"GOT MESSAGE",decoded);
     }
 }
