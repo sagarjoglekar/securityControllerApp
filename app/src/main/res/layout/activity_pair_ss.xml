@@ -10,30 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="controller.system.security.securitycontroller.pairSS">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:layout_marginTop="68dp"
-        android:id="@+id/SSNumber"
-        android:hint="SS Number"
-        android:maxLength="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberPassword"
-        android:ems="10"
-        android:maxLength="4"
-        android:layout_marginTop="29dp"
-        android:id="@+id/Password"
-        android:layout_below="@+id/SSNumber"
-        android:layout_alignLeft="@+id/SSNumber"
-        android:layout_alignStart="@+id/SSNumber" />
-
     <Button
         android:text="Pair"
         android:layout_width="100dp"
@@ -41,7 +17,132 @@
         android:id="@+id/button"
         android:onClick="executePair"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_below="@+id/Password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:maxLength="14"
+        android:id="@+id/emp2"
+        android:hint="Emp 2"
+        android:layout_above="@+id/emp3"
+        android:layout_alignLeft="@+id/emp1"
+        android:layout_alignStart="@+id/emp1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/emp1"
+        android:maxLength="14"
+        android:hint="Emp 1"
+        android:layout_above="@+id/emp2"
+        android:layout_alignLeft="@+id/owner3"
+        android:layout_alignStart="@+id/owner3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/emp5"
+        android:maxLength="14"
+        android:hint="Emp 5"
+        android:layout_below="@+id/emp3"
+        android:layout_alignLeft="@+id/emp4"
+        android:layout_alignStart="@+id/emp4"
+        android:layout_marginTop="31dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:maxLength="14"
+        android:ems="10"
+        android:id="@+id/emp3"
+        android:hint="Emp 3"
+        android:layout_above="@+id/emp4"
+        android:layout_alignStart="@+id/emp2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/emp4"
+        android:hint="Emp 4"
+        android:maxLength="14"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/button"
+        android:layout_alignStart="@+id/emp3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:maxLength="20"
+        android:hint="Site name"
+        android:ems="10"
+        android:id="@+id/Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/SSNumber" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/SSNumber"
+        android:hint="Site Phone Number"
+        android:maxLength="14"
+        android:layout_below="@+id/Name"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/serial"
+        android:hint="Site Number"
+        android:maxLength="1"
+        android:layout_below="@+id/SSNumber"
+        android:layout_alignStart="@+id/SSNumber" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/owner3"
+        android:maxLength="14"
+        android:hint="Owner 3"
+        android:layout_above="@+id/emp1"
+        android:layout_alignStart="@+id/owner2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/owner2"
+        android:maxLength="14"
+        android:hint="Owner 2"
+        android:layout_above="@+id/owner3"
+        android:layout_alignStart="@+id/Password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:ems="10"
+        android:maxLength="4"
+        android:id="@+id/Password"
+        android:hint="4 Digit Site Pin"
+        android:layout_below="@+id/serial"
+        android:layout_alignStart="@+id/serial" />
 </RelativeLayout>

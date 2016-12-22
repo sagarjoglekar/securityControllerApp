@@ -17,7 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     public static final String PREFS_NAME = "SecurityPrefrenceFile";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
