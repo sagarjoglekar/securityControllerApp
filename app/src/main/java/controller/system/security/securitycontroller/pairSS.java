@@ -1,9 +1,10 @@
 package controller.system.security.securitycontroller;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,13 +35,63 @@ public class pairSS extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void executePair(View view) {
+    private String buildMessage(View view){
+        EditText siteName = (EditText)findViewById(R.id.Name);
         EditText SSNumber = (EditText)findViewById(R.id.SSNumber);
         EditText pass = (EditText)findViewById(R.id.Password);
-        SmsManager smsManager = SmsManager.getDefault();
-        String message = parser.serialize("9822036919");
-        smsManager.sendTextMessage("07506225616", null, message , null, null);
-        Toast.makeText(pairSS.this, SSNumber.getText(),
+        EditText serial = (EditText)findViewById(R.id.serial);
+        EditText owner2 = (EditText)findViewById(R.id.owner2);
+        EditText owner3 = (EditText)findViewById(R.id.owner3);
+        EditText emp1 = (EditText)findViewById(R.id.emp1);
+        EditText emp2 = (EditText)findViewById(R.id.emp2);
+        EditText emp3 = (EditText)findViewById(R.id.emp3);
+        EditText emp4 = (EditText)findViewById(R.id.emp4);
+        EditText emp5 = (EditText)findViewById(R.id.emp5);
+
+        String pairMessage = "R";
+        if ( ( SSNumber.getText().toString().trim().equals("")) )
+        {
+            Toast.makeText(getApplicationContext(), "SSNumber name is empty", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if ( ( pass.getText().toString().length()) < 4)
+        {
+            Toast.makeText(getApplicationContext(), "Password has to be 4 digit", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if ( ( serial.getText().toString().trim().equals("")) )
+        {
+            Toast.makeText(getApplicationContext(), "You need to have a serial number for this site ", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if ( ( siteName.getText().toString().trim().equals("")) )
+        {
+            Toast.makeText(getApplicationContext(), "You need to have a Name for the site ", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        TelephonyManager tMgr =(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
+
+        String finalMessage = pairMessage + serial.getText().toString() + this.parser.sanitizeName(siteName.getText().toString()) + this.parser.sanitizeNumber(mPhoneNumber)
+                            + this.parser.sanitizeNumber(owner2.getText().toString()) + this.parser.sanitizeNumber(owner3.getText().toString())
+                            + this.parser.sanitizeNumber(emp1.getText().toString()) + this.parser.sanitizeNumber(emp2.getText().toString())
+                            + this.parser.sanitizeNumber(emp3.getText().toString()) + this.parser.sanitizeNumber(emp4.getText().toString())
+                            + this.parser.sanitizeNumber(emp5.getText().toString());
+
+        return finalMessage;
+
+    }
+    public void executePair(View view) {
+
+        String payload = this.buildMessage(view);
+        if (payload!=null){
+            EditText SSNumber = (EditText)findViewById(R.id.SSNumber);
+            this.parser.sendMessage(SSNumber.getText().toString() , payload);
+        }
+        Toast.makeText(pairSS.this, "Pairing message sent ",
                 Toast.LENGTH_LONG).show();
     }
 
